@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-nagare-black: #05070A;
+  --color-nagare-navy: #0B132B;
+  --color-nagare-petrol: #183D5D;
+  --color-nagare-cyan: #3FD7FF;
+  --color-nagare-gray: #C7CCD4;
+  --color-nagare-white: #F7F9FB;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-nagare-black);
+    color: var(--color-nagare-white);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+}
+
+/* Custom scrollbar matching the minimal dark theme */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-nagare-black);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-nagare-petrol);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-nagare-cyan);
+}

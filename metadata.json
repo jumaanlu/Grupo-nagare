@@ -1,0 +1,6 @@
+{
+  "name": "NAGARE",
+  "description": "Sitio web oficial premium, minimalista y silencioso de NAGARE. Soluciones Tecnológicas que fluyen contigo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
