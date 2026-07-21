@@ -3,6 +3,7 @@ import {AnimatePresence, motion, useScroll, useSpring} from 'motion/react';
 import {ArrowDown, ArrowUpRight, AudioLines, Building2, Check, ChevronRight, House, LifeBuoy, Menu, Network, ShieldCheck, X, Zap} from 'lucide-react';
 import './solutions.css';
 import './brand.css';
+import './editorial.css';
 
 const WA='https://wa.me/525585263040?text=Hola%20NAGARE%2C%20me%20interesa%20una%20asesor%C3%ADa%20para%20mi%20proyecto.';
 const solutions=[
@@ -39,6 +40,7 @@ export default function App(){
      <p className="lead">Diseñamos espacios conectados, seguros y simples de usar. La ingeniería sucede detrás; tú solo disfrutas el resultado.</p>
      <div className="actions"><button className="primary" onClick={()=>go('soluciones')}>Explorar soluciones <ArrowUpRight/></button><a className="secondary" href={WA} target="_blank" rel="noreferrer">Cuéntanos tu proyecto</a></div>
     </motion.div>
+    <motion.div className="logo-stage" initial={{opacity:0,y:55,scale:.94}} animate={{opacity:1,y:0,scale:1}} transition={{delay:.45,duration:1.2,ease:[.16,1,.3,1]}}><div className="logo-halo"/><img src="/nagare-logo.png" alt="NAGARE — tecnología que fluye"/><span className="stage-note left">AGUA · MOVIMIENTO</span><span className="stage-note right">INGENIERÍA · PRECISIÓN</span></motion.div>
     <button className="scroll" onClick={()=>go('soluciones')}><span>DESCUBRIR</span><ArrowDown/></button>
    </section>
 
