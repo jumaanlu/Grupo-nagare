@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
-import {motion, useScroll, useSpring} from 'motion/react';
-import {ArrowDown, ArrowUpRight, AudioLines, Building2, Check, ChevronRight, House, Menu, Network, ShieldCheck, X, Zap} from 'lucide-react';
+import {AnimatePresence, motion, useScroll, useSpring} from 'motion/react';
+import {ArrowDown, ArrowUpRight, AudioLines, Building2, Check, ChevronRight, House, LifeBuoy, Menu, Network, ShieldCheck, X, Zap} from 'lucide-react';
+import './solutions.css';
 
 const WA='https://wa.me/525585263040?text=Hola%20NAGARE%2C%20me%20interesa%20una%20asesor%C3%ADa%20para%20mi%20proyecto.';
 const solutions=[
-  {n:'01',title:'Conectividad',copy:'Redes cableadas y WiFi estables, diseñadas para crecer contigo.',icon:Network},
-  {n:'02',title:'Seguridad',copy:'Videovigilancia y control de acceso integrados, sin complicaciones.',icon:ShieldCheck},
-  {n:'03',title:'Experiencias',copy:'Audio, video y automatización que se sienten naturales en cada espacio.',icon:AudioLines},
+  {n:'01',title:'Conectividad',copy:'Redes cableadas y WiFi estables, diseñadas para crecer contigo.',icon:Network,detail:'Creamos la infraestructura que mantiene cada dispositivo conectado con velocidad y estabilidad.',items:['WiFi residencial y empresarial','Cableado estructurado y fibra óptica','Racks, switches y respaldo eléctrico','Diagnóstico y optimización de cobertura']},
+  {n:'02',title:'Seguridad',copy:'Videovigilancia y control de acceso integrados, sin complicaciones.',icon:ShieldCheck,detail:'Protegemos personas y espacios con sistemas discretos que puedes consultar y controlar desde cualquier lugar.',items:['Videovigilancia CCTV','Control de acceso','Interfonía y videoporteros','Alarmas, sensores e integración móvil']},
+  {n:'03',title:'Experiencias',copy:'Audio, video y automatización que se sienten naturales en cada espacio.',icon:AudioLines,detail:'Integramos entretenimiento, comunicación y automatización en una experiencia sencilla de operar.',items:['Audio distribuido','Salas de juntas y videoconferencia','Pantallas y señalización digital','Automatización e iluminación']},
+  {n:'04',title:'Soporte',copy:'Acompañamiento continuo para que la tecnología nunca interrumpa tu operación.',icon:LifeBuoy,detail:'Cuidamos tu inversión después de la instalación y adaptamos el sistema conforme cambian tus necesidades.',items:['Monitoreo y asistencia remota','Mantenimiento preventivo','Atención de incidencias','Actualización y crecimiento del sistema']},
 ];
 const spaces=[
   {title:'Residencial',copy:'Tecnología discreta para vivir con más calma.',icon:House,img:'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=85&w=1200&auto=format&fit=crop'},
@@ -16,7 +18,7 @@ const spaces=[
 const process=['Escuchamos','Diseñamos','Integramos','Acompañamos'];
 
 export default function App(){
- const [open,setOpen]=useState(false); const {scrollYProgress}=useScroll(); const scaleX=useSpring(scrollYProgress,{stiffness:100,damping:24});
+ const [open,setOpen]=useState(false); const [activeSolution,setActiveSolution]=useState<number|null>(null); const {scrollYProgress}=useScroll(); const scaleX=useSpring(scrollYProgress,{stiffness:100,damping:24});
  useEffect(()=>{document.body.style.overflow=open?'hidden':'';return()=>{document.body.style.overflow=''}},[open]);
  const go=(id:string)=>{setOpen(false);document.getElementById(id)?.scrollIntoView({behavior:'smooth'})};
  return <div className="site">
@@ -41,8 +43,9 @@ export default function App(){
 
    <section className="statement reveal"><p className="kicker">NUESTRA IDEA</p><h2>La mejor tecnología es la que <em>deja de sentirse</em> como tecnología.</h2><p>Un solo equipo para conectar cada sistema y hacer que todo funcione en armonía.</p></section>
 
-   <section id="soluciones" className="section solutions"><header><div><p className="kicker">LO QUE HACEMOS</p><h2>Tres soluciones.<br/>Un ecosistema.</h2></div><p className="sidecopy">Reducimos la complejidad técnica a una experiencia clara, estable y preparada para el futuro.</p></header>
-    <div className="solution-grid">{solutions.map((s,i)=>{const Icon=s.icon;return <motion.article key={s.title} whileHover={{y:-8}} transition={{type:'spring',stiffness:250}}><div className="cardtop"><span>{s.n}</span><Icon/></div><div><h3>{s.title}</h3><p>{s.copy}</p></div><ChevronRight className="arrow"/></motion.article>})}</div>
+   <section id="soluciones" className="section solutions"><header><div><p className="kicker">LO QUE HACEMOS</p><h2>Cuatro soluciones.<br/>Un ecosistema.</h2></div><p className="sidecopy">Selecciona una solución para descubrir cómo la adaptamos a tu espacio. La información aparece solo cuando la necesitas.</p></header>
+    <div className="solution-grid">{solutions.map((s,i)=>{const Icon=s.icon;const active=activeSolution===i;return <motion.button type="button" aria-expanded={active} className={`solution-card ${active?'active':''}`} key={s.title} onClick={()=>setActiveSolution(active?null:i)} whileHover={{y:-8}} whileTap={{scale:.99}} transition={{type:'spring',stiffness:250}}><div className="cardtop"><span>{s.n}</span><Icon/></div><div><h3>{s.title}</h3><p>{s.copy}</p></div><ChevronRight className="arrow"/></motion.button>})}</div>
+    <AnimatePresence mode="wait">{activeSolution!==null&&(()=>{const s=solutions[activeSolution];const Icon=s.icon;const message=encodeURIComponent(`Hola NAGARE, me interesa conocer más sobre ${s.title}.`);return <motion.div className="solution-detail" key={s.title} initial={{opacity:0,y:-18,height:0}} animate={{opacity:1,y:0,height:'auto'}} exit={{opacity:0,y:-12,height:0}} transition={{duration:.45,ease:[.16,1,.3,1]}}><div className="detail-intro"><span>{s.n} / DETALLE</span><Icon/><h3>{s.title}</h3><p>{s.detail}</p></div><ul>{s.items.map((item,index)=><motion.li key={item} initial={{opacity:0,x:18}} animate={{opacity:1,x:0}} transition={{delay:index*.07}}><span>0{index+1}</span>{item}</motion.li>)}</ul><a href={`https://wa.me/525585263040?text=${message}`} target="_blank" rel="noreferrer">Consultar esta solución <ArrowUpRight/></a></motion.div>})()}</AnimatePresence>
    </section>
 
    <section id="proceso" className="section process"><div className="process-copy"><p className="kicker">CÓMO FLUYE</p><h2>De la idea a un sistema que simplemente funciona.</h2><p>Nos ocupamos del recorrido completo. Sin proveedores dispersos ni decisiones técnicas innecesarias.</p><a href={WA} target="_blank" rel="noreferrer">Iniciar conversación <ArrowUpRight/></a></div>
