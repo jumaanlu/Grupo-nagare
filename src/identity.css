@@ -57,3 +57,5 @@ main>section+section{margin-top:-1px}
 .spaces:after{left:-22%;top:10%;background:rgba(28,112,161,.18)}
 .contact:after{right:-18%;top:5%;background:rgba(21,91,137,.2)}
 .steps div:after{display:none}.space-grid article{border:0!important}.contact-orb{border:0}.progress{height:1px;opacity:.72}
+.contact-actions{position:relative;display:flex;justify-content:center;gap:14px;flex-wrap:wrap}.contact-actions .contact-whatsapp{background:transparent;color:var(--cyan);box-shadow:inset 0 0 0 1px rgba(69,221,255,.3)}
+@media(max-width:600px){.contact-actions{flex-direction:column;align-items:stretch}.contact-actions a{justify-content:center}}

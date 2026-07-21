@@ -5,6 +5,7 @@ import './solutions.css';
 import './brand.css';
 import './editorial.css';
 import './identity.css';
+import ContactPage from './ContactPage';
 
 const WA='https://wa.me/525585263040?text=Hola%20NAGARE%2C%20me%20interesa%20una%20asesor%C3%ADa%20para%20mi%20proyecto.';
 const solutions=[
@@ -21,6 +22,7 @@ const spaces=[
 const process=['Escuchamos','Diseñamos','Integramos','Acompañamos'];
 
 export default function App(){
+ if(window.location.pathname.replace(/\/$/,'')==='/contacto')return <ContactPage/>;
  const [open,setOpen]=useState(false); const [activeSolution,setActiveSolution]=useState(0); const {scrollYProgress}=useScroll(); const scaleX=useSpring(scrollYProgress,{stiffness:100,damping:24});
  useEffect(()=>{document.body.style.overflow=open?'hidden':'';return()=>{document.body.style.overflow=''}},[open]);
  const go=(id:string)=>{setOpen(false);document.getElementById(id)?.scrollIntoView({behavior:'smooth'})};
@@ -28,9 +30,9 @@ export default function App(){
   <motion.div className="progress" style={{scaleX}}/>
   <nav className="nav"><button className="brand" onClick={()=>scrollTo({top:0,behavior:'smooth'})}><b>NAGARE</b><span>INGENIERÍA DE SISTEMAS</span></button>
    <div className="navlinks"><button onClick={()=>go('soluciones')}>Soluciones</button><button onClick={()=>go('proceso')}>Proceso</button><button onClick={()=>go('espacios')}>Espacios</button></div>
-   <a className="navcta" href={WA} target="_blank" rel="noreferrer">Hablemos <ArrowUpRight/></a><button className="menubtn" onClick={()=>setOpen(!open)} aria-label="Menú">{open?<X/>:<Menu/>}</button>
+   <a className="navcta" href="/contacto">Hablemos <ArrowUpRight/></a><button className="menubtn" onClick={()=>setOpen(!open)} aria-label="Menú">{open?<X/>:<Menu/>}</button>
   </nav>
-  {open&&<motion.div className="mobile" initial={{opacity:0}} animate={{opacity:1}}><button onClick={()=>go('soluciones')}>Soluciones</button><button onClick={()=>go('proceso')}>Proceso</button><button onClick={()=>go('espacios')}>Espacios</button><a href={WA}>Hablemos <ArrowUpRight/></a></motion.div>}
+  {open&&<motion.div className="mobile" initial={{opacity:0}} animate={{opacity:1}}><button onClick={()=>go('soluciones')}>Soluciones</button><button onClick={()=>go('proceso')}>Proceso</button><button onClick={()=>go('espacios')}>Espacios</button><a href="/contacto">Hablemos <ArrowUpRight/></a></motion.div>}
 
   <main>
    <section className="hero">
@@ -63,7 +65,7 @@ export default function App(){
 
    <section id="espacios" className="section spaces"><header><div><p className="kicker">DONDE SUCEDE</p><h2>Soluciones que se adaptan al espacio.</h2></div></header><div className="space-grid">{spaces.map((s,i)=>{const Icon=s.icon;return <motion.article key={s.title} initial={{opacity:0,y:35}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*.12}}><img src={s.img} alt={`Proyecto ${s.title}`}/><div className="shade"/><div className="space-copy"><Icon/><span>0{i+1}</span><h3>{s.title}</h3><p>{s.copy}</p></div></motion.article>})}</div></section>
 
-   <section className="contact"><div className="contact-orb"/><p className="kicker">TU PRÓXIMO ESPACIO</p><h2>Hagamos que la<br/>tecnología <em>fluya.</em></h2><p>Cuéntanos qué quieres resolver. Empezamos con una conversación sencilla.</p><a href={WA} target="_blank" rel="noreferrer">Hablar por WhatsApp <ArrowUpRight/></a></section>
+   <section className="contact"><div className="contact-orb"/><p className="kicker">TU PRÓXIMO ESPACIO</p><h2>Hagamos que la<br/>tecnología <em>fluya.</em></h2><p>Cuéntanos qué quieres resolver. Empezamos con una conversación sencilla.</p><div className="contact-actions"><a href="/contacto">Cuéntanos tu proyecto <ArrowUpRight/></a><a className="contact-whatsapp" href={WA} target="_blank" rel="noreferrer">Hablar por WhatsApp <ArrowUpRight/></a></div></section>
   </main>
   <footer><div className="brand"><b>NAGARE</b><span>INGENIERÍA DE SISTEMAS</span></div><p>Redes · Seguridad · Audio y video · Automatización</p><div><a href="tel:+525585263040">+52 55 8526 3040</a><span>© 2026 NAGARE</span></div></footer>
  </div>
