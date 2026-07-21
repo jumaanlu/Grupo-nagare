@@ -49,14 +49,23 @@ export default function App(){
 
    <section className="statement reveal"><p className="kicker">NUESTRA IDEA</p><h2>La mejor tecnología es la que <em>deja de sentirse</em> como tecnología.</h2><p>Un solo equipo para conectar cada sistema y hacer que todo funcione en armonía.</p></section>
 
-   <section id="soluciones" className="section solutions-flow"><header><div><p className="kicker">LO QUE HACEMOS</p><h2>Cuatro soluciones.<br/>Una sola corriente.</h2></div><p className="sidecopy">Cada sistema se integra al siguiente para que tu espacio responda como un solo ecosistema.</p></header>
-    <div className="solution-picker"><p><span>EXPLORA</span> Selecciona una solución para ver sus capacidades</p><nav className="solution-nav" aria-label="Selecciona una solución">{solutions.map((s,i)=>{const Icon=s.icon;return <button key={s.title} className={activeSolution===i?'active':''} aria-pressed={activeSolution===i} onClick={()=>setActiveSolution(i)}><Icon/><span>{s.n}</span><b>{s.title}</b><small>{activeSolution===i?'Mostrando detalles':'Ver solución'}</small></button>})}</nav></div>
-    <div className="flow-current" aria-hidden="true"><i/><i/><i/></div>
-    <div className="solution-scenes"><AnimatePresence mode="wait">{(()=>{const s=solutions[activeSolution];const Icon=s.icon;return <motion.article className={`solution-scene ${activeSolution%2?'reverse':''}`} key={s.title} initial={{opacity:0,y:22}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-18}} transition={{duration:.5,ease:[.16,1,.3,1]}}>
-      <div className="scene-copy"><p className="scene-number">SOLUCIÓN {s.n}</p><Icon/><h3>{s.title}</h3><p>{s.detail}</p><a href={`/soluciones/${s.slug}`}>Conocer {s.title.toLowerCase()} <ArrowUpRight/></a></div>
-      <div className="scene-visual" aria-hidden="true"><span className="visual-orbit"/><span className="visual-core"><Icon/></span><small>{s.copy}</small></div>
-      <div className="capability-grid">{s.items.map((item,index)=><motion.div key={item} initial={{opacity:0,y:14}} animate={{opacity:1,y:0}} transition={{delay:.12+index*.07}}><span>0{index+1}</span><Icon/><h4>{item}</h4><p>{['Diseñado a la medida de tu espacio y preparado para crecer contigo.','Integración limpia, estable y sencilla de operar todos los días.','Control centralizado con una experiencia natural para cada usuario.','Acompañamiento experto desde el diseño hasta la operación.'][index]}</p></motion.div>)}</div>
-     </motion.article>})()}</AnimatePresence></div>
+   <section id="soluciones" className="section solutions-flow"><header><div><p className="kicker">LO QUE HACEMOS</p><h2>Elige una corriente.<br/>Descubre hasta dónde llega.</h2></div><p className="sidecopy">Cuatro especialidades conectadas. Selecciona una para abrir su recorrido completo.</p></header>
+    {(()=>{const s=solutions[activeSolution];const Icon=s.icon;return <div className={`solution-gateway theme-${s.slug}`}>
+      <nav className="solution-route" aria-label="Elige una solución">
+       <p><span>01</span> ELIGE QUÉ QUIERES HACER FLUIR</p>
+       <div>{solutions.map((item,i)=>{const ItemIcon=item.icon;const active=activeSolution===i;return <button key={item.slug} className={active?'active':''} aria-pressed={active} aria-controls="solution-focus" onClick={()=>setActiveSolution(i)}>{active&&<motion.i layoutId="solution-route-active"/>}<span>{item.n}</span><ItemIcon/><b>{item.title}</b><small>{active?'Ahora viendo':'Seleccionar'}</small></button>})}</div>
+      </nav>
+      <div className="gateway-current" aria-hidden="true"><i/><i/><i/><i/></div>
+      <AnimatePresence mode="wait"><motion.article id="solution-focus" className="gateway-scene" key={s.slug} aria-live="polite" initial={{opacity:0,x:38,filter:'blur(8px)'}} animate={{opacity:1,x:0,filter:'blur(0px)'}} exit={{opacity:0,x:-28,filter:'blur(6px)'}} transition={{duration:.58,ease:[.16,1,.3,1]}}>
+       <div className="gateway-copy"><p className="scene-number">CORRIENTE {s.n}</p><Icon/><h3>{s.title}</h3><p>{s.copy}</p><a className="gateway-cta" href={`/soluciones/${s.slug}`}><span><b>Explorar {s.title.toLowerCase()}</b><small>Ver alcance, opciones y preguntas</small></span><ArrowUpRight/></a></div>
+       <a className="gateway-portal" href={`/soluciones/${s.slug}`} aria-label={`Abrir la solución ${s.title}`}>
+        <span className="portal-ring ring-one"/><span className="portal-ring ring-two"/><span className="portal-ring ring-three"/>
+        <span className="portal-trace trace-one"/><span className="portal-trace trace-two"/>
+        <span className="portal-core"><Icon/></span><span className="portal-label">ENTRAR A {s.title.toUpperCase()} <ArrowUpRight/></span>
+       </a>
+      </motion.article></AnimatePresence>
+      <p className="gateway-hint"><span/> Selecciona una especialidad arriba. Solo mostramos el punto de entrada; el detalle vive en su propia página.</p>
+     </div>})()}
    </section>
 
    <section id="proceso" className="section process"><div className="process-copy"><p className="kicker">CÓMO FLUYE</p><h2>De la idea a un sistema que simplemente funciona.</h2><p>Nos ocupamos del recorrido completo. Sin proveedores dispersos ni decisiones técnicas innecesarias.</p><a href={WA} target="_blank" rel="noreferrer">Iniciar conversación <ArrowUpRight/></a></div>
