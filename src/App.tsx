@@ -1,80 +1,58 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
+import { useEffect, useState } from 'react';
+import {motion, useScroll, useSpring} from 'motion/react';
+import {ArrowDown, ArrowUpRight, AudioLines, Building2, Check, ChevronRight, House, Menu, Network, ShieldCheck, X, Zap} from 'lucide-react';
 
-import { useState } from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Philosophy from './components/Philosophy';
-import WhyNagare from './components/WhyNagare';
-import Services from './components/Services';
-import Scenarios from './components/Scenarios';
-import SolutionsCenter from './components/SolutionsCenter';
-import Commitment from './components/Commitment';
-import ContactModal from './components/ContactModal';
-import Footer from './components/Footer';
+const WA='https://wa.me/525585263040?text=Hola%20NAGARE%2C%20me%20interesa%20una%20asesor%C3%ADa%20para%20mi%20proyecto.';
+const solutions=[
+  {n:'01',title:'Conectividad',copy:'Redes cableadas y WiFi estables, diseñadas para crecer contigo.',icon:Network},
+  {n:'02',title:'Seguridad',copy:'Videovigilancia y control de acceso integrados, sin complicaciones.',icon:ShieldCheck},
+  {n:'03',title:'Experiencias',copy:'Audio, video y automatización que se sienten naturales en cada espacio.',icon:AudioLines},
+];
+const spaces=[
+  {title:'Residencial',copy:'Tecnología discreta para vivir con más calma.',icon:House,img:'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=85&w=1200&auto=format&fit=crop'},
+  {title:'Corporativo',copy:'Infraestructura que mantiene al equipo conectado.',icon:Building2,img:'https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=85&w=1200&auto=format&fit=crop'},
+  {title:'Hospitalidad',copy:'Experiencias consistentes para huéspedes y operación.',icon:Zap,img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=85&w=1200&auto=format&fit=crop'},
+];
+const process=['Escuchamos','Diseñamos','Integramos','Acompañamos'];
 
-export default function App() {
-  const [isContactOpen, setIsContactOpen] = useState(false);
+export default function App(){
+ const [open,setOpen]=useState(false); const {scrollYProgress}=useScroll(); const scaleX=useSpring(scrollYProgress,{stiffness:100,damping:24});
+ useEffect(()=>{document.body.style.overflow=open?'hidden':'';return()=>{document.body.style.overflow=''}},[open]);
+ const go=(id:string)=>{setOpen(false);document.getElementById(id)?.scrollIntoView({behavior:'smooth'})};
+ return <div className="site">
+  <motion.div className="progress" style={{scaleX}}/>
+  <nav className="nav"><button className="brand" onClick={()=>scrollTo({top:0,behavior:'smooth'})}><b>NAGARE</b><span>INGENIERÍA DE SISTEMAS</span></button>
+   <div className="navlinks"><button onClick={()=>go('soluciones')}>Soluciones</button><button onClick={()=>go('proceso')}>Proceso</button><button onClick={()=>go('espacios')}>Espacios</button></div>
+   <a className="navcta" href={WA} target="_blank" rel="noreferrer">Hablemos <ArrowUpRight/></a><button className="menubtn" onClick={()=>setOpen(!open)} aria-label="Menú">{open?<X/>:<Menu/>}</button>
+  </nav>
+  {open&&<motion.div className="mobile" initial={{opacity:0}} animate={{opacity:1}}><button onClick={()=>go('soluciones')}>Soluciones</button><button onClick={()=>go('proceso')}>Proceso</button><button onClick={()=>go('espacios')}>Espacios</button><a href={WA}>Hablemos <ArrowUpRight/></a></motion.div>}
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const yOffset = -90; // offset to account for navbar height
-      const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
-  };
+  <main>
+   <section className="hero">
+    <div className="orb one"/><div className="orb two"/><div className="grid"/>
+    <motion.div className="hero-copy" initial={{opacity:0,y:32}} animate={{opacity:1,y:0}} transition={{duration:1}}>
+     <p className="eyebrow"><i/> INTEGRACIÓN TECNOLÓGICA</p>
+     <h1>Tecnología que<br/><em>fluye contigo.</em></h1>
+     <p className="lead">Diseñamos espacios conectados, seguros y simples de usar. La ingeniería sucede detrás; tú solo disfrutas el resultado.</p>
+     <div className="actions"><button className="primary" onClick={()=>go('soluciones')}>Explorar soluciones <ArrowUpRight/></button><a className="secondary" href={WA} target="_blank" rel="noreferrer">Cuéntanos tu proyecto</a></div>
+    </motion.div>
+    <button className="scroll" onClick={()=>go('soluciones')}><span>DESCUBRIR</span><ArrowDown/></button>
+   </section>
 
-  return (
-    <div className="bg-nagare-black min-h-screen font-sans selection:bg-nagare-cyan/20 selection:text-nagare-cyan relative text-nagare-white">
-      {/* Floating Interactive Geometric Light Accents */}
-      <div className="absolute top-[15%] left-1/4 w-[50vw] h-[50vw] bg-nagare-navy/10 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute top-[45%] right-10 w-[40vw] h-[40vw] bg-nagare-petrol/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-[75%] left-5 w-[60vw] h-[60vw] bg-nagare-navy/5 rounded-full blur-[180px] pointer-events-none" />
+   <section className="statement reveal"><p className="kicker">NUESTRA IDEA</p><h2>La mejor tecnología es la que <em>deja de sentirse</em> como tecnología.</h2><p>Un solo equipo para conectar cada sistema y hacer que todo funcione en armonía.</p></section>
 
-      {/* Floating Navigation */}
-      <Navbar 
-        onOpenContact={() => setIsContactOpen(true)} 
-        scrollToSection={scrollToSection} 
-      />
+   <section id="soluciones" className="section solutions"><header><div><p className="kicker">LO QUE HACEMOS</p><h2>Tres soluciones.<br/>Un ecosistema.</h2></div><p className="sidecopy">Reducimos la complejidad técnica a una experiencia clara, estable y preparada para el futuro.</p></header>
+    <div className="solution-grid">{solutions.map((s,i)=>{const Icon=s.icon;return <motion.article key={s.title} whileHover={{y:-8}} transition={{type:'spring',stiffness:250}}><div className="cardtop"><span>{s.n}</span><Icon/></div><div><h3>{s.title}</h3><p>{s.copy}</p></div><ChevronRight className="arrow"/></motion.article>})}</div>
+   </section>
 
-      {/* Main Sections */}
-      <main>
-        {/* Full-screen Hero Splash with ripple interaction */}
-        <Hero 
-          onOpenContact={() => setIsContactOpen(true)} 
-          scrollToSection={scrollToSection} 
-        />
+   <section id="proceso" className="section process"><div className="process-copy"><p className="kicker">CÓMO FLUYE</p><h2>De la idea a un sistema que simplemente funciona.</h2><p>Nos ocupamos del recorrido completo. Sin proveedores dispersos ni decisiones técnicas innecesarias.</p><a href={WA} target="_blank" rel="noreferrer">Iniciar conversación <ArrowUpRight/></a></div>
+    <div className="steps">{process.map((p,i)=><motion.div key={p} initial={{opacity:.25,x:20}} whileInView={{opacity:1,x:0}} viewport={{once:true,margin:'-10%'}} transition={{delay:i*.1}}><span>0{i+1}</span><h3>{p}</h3><Check/></motion.div>)}</div>
+   </section>
 
-        {/* Brand Philosophy - Silent statement */}
-        <Philosophy />
+   <section id="espacios" className="section spaces"><header><div><p className="kicker">DONDE SUCEDE</p><h2>Soluciones que se adaptan al espacio.</h2></div></header><div className="space-grid">{spaces.map((s,i)=>{const Icon=s.icon;return <motion.article key={s.title} initial={{opacity:0,y:35}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:i*.12}}><img src={s.img} alt={`Proyecto ${s.title}`}/><div className="shade"/><div className="space-copy"><Icon/><span>0{i+1}</span><h3>{s.title}</h3><p>{s.copy}</p></div></motion.article>})}</div></section>
 
-        {/* Why NAGARE - Principles and engineering beliefs */}
-        <WhyNagare />
-
-        {/* Systems Solutions - Interactive bento detail catalog */}
-        <Services />
-
-        {/* Context Scenarios - Conceptual architectural references */}
-        <Scenarios />
-
-        {/* Granular technical Solutions Center explorer */}
-        <SolutionsCenter />
-
-        {/* Quality commitment column blocks */}
-        <Commitment />
-      </main>
-
-      {/* Final interactive contact card & Footer directory */}
-      <Footer onOpenContact={() => setIsContactOpen(true)} />
-
-      {/* Futuristic Blueprint custom system configurator Modal Overlay */}
-      <ContactModal 
-        isOpen={isContactOpen} 
-        onClose={() => setIsContactOpen(false)} 
-      />
-    </div>
-  );
+   <section className="contact"><div className="contact-orb"/><p className="kicker">TU PRÓXIMO ESPACIO</p><h2>Hagamos que la<br/>tecnología <em>fluya.</em></h2><p>Cuéntanos qué quieres resolver. Empezamos con una conversación sencilla.</p><a href={WA} target="_blank" rel="noreferrer">Hablar por WhatsApp <ArrowUpRight/></a></section>
+  </main>
+  <footer><div className="brand"><b>NAGARE</b><span>INGENIERÍA DE SISTEMAS</span></div><p>Redes · Seguridad · Audio y video · Automatización</p><div><a href="tel:+525585263040">+52 55 8526 3040</a><span>© 2026 NAGARE</span></div></footer>
+ </div>
 }
