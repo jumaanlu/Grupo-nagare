@@ -4,6 +4,7 @@ import {ArrowDown, ArrowUpRight, AudioLines, Building2, Check, ChevronRight, Hou
 import './solutions.css';
 import './brand.css';
 import './editorial.css';
+import './identity.css';
 
 const WA='https://wa.me/525585263040?text=Hola%20NAGARE%2C%20me%20interesa%20una%20asesor%C3%ADa%20para%20mi%20proyecto.';
 const solutions=[
@@ -34,13 +35,13 @@ export default function App(){
   <main>
    <section className="hero">
     <div className="orb one"/><div className="orb two"/><div className="grid"/><div className="brand-wave" aria-hidden="true"><span/><span/><span/><i/></div>
+    <motion.div className="hero-mark" initial={{opacity:0,y:-24,scale:.9}} animate={{opacity:1,y:0,scale:1}} transition={{duration:1,ease:[.16,1,.3,1]}}><div className="mark-glow"/><div className="logo-mark-window"><img src="/nagare-logo.png" alt="Símbolo NAGARE"/></div><span>流れ · FLUIR</span></motion.div>
     <motion.div className="hero-copy" initial={{opacity:0,y:32}} animate={{opacity:1,y:0}} transition={{duration:1}}>
      <p className="eyebrow"><i/> INTEGRACIÓN TECNOLÓGICA</p>
      <h1>Tecnología que<br/><em>fluye contigo.</em></h1>
      <p className="lead">Diseñamos espacios conectados, seguros y simples de usar. La ingeniería sucede detrás; tú solo disfrutas el resultado.</p>
      <div className="actions"><button className="primary" onClick={()=>go('soluciones')}>Explorar soluciones <ArrowUpRight/></button><a className="secondary" href={WA} target="_blank" rel="noreferrer">Cuéntanos tu proyecto</a></div>
     </motion.div>
-    <motion.div className="logo-stage" initial={{opacity:0,y:55,scale:.94}} animate={{opacity:1,y:0,scale:1}} transition={{delay:.45,duration:1.2,ease:[.16,1,.3,1]}}><div className="logo-halo"/><img src="/nagare-logo.png" alt="NAGARE — tecnología que fluye"/><span className="stage-note left">AGUA · MOVIMIENTO</span><span className="stage-note right">INGENIERÍA · PRECISIÓN</span></motion.div>
     <button className="scroll" onClick={()=>go('soluciones')}><span>DESCUBRIR</span><ArrowDown/></button>
    </section>
 
