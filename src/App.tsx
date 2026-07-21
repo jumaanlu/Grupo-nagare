@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import {AnimatePresence, motion, useScroll, useSpring} from 'motion/react';
-import {ArrowDown, ArrowUpRight, AudioLines, Building2, Check, ChevronRight, House, LifeBuoy, Menu, Network, ShieldCheck, X, Zap} from 'lucide-react';
+import {motion, useScroll, useSpring} from 'motion/react';
+import {ArrowDown, ArrowUpRight, AudioLines, Building2, Check, House, LifeBuoy, Menu, Network, ShieldCheck, X, Zap} from 'lucide-react';
 import './solutions.css';
 import './brand.css';
 import './editorial.css';
@@ -47,11 +47,14 @@ export default function App(){
 
    <section className="statement reveal"><p className="kicker">NUESTRA IDEA</p><h2>La mejor tecnología es la que <em>deja de sentirse</em> como tecnología.</h2><p>Un solo equipo para conectar cada sistema y hacer que todo funcione en armonía.</p></section>
 
-   <section id="soluciones" className="section solutions"><header><div><p className="kicker">LO QUE HACEMOS</p><h2>Cuatro soluciones.<br/>Un ecosistema.</h2></div><p className="sidecopy">Selecciona una solución para descubrir cómo la adaptamos a tu espacio. La información aparece solo cuando la necesitas.</p></header>
-    <div className="solution-showcase">
-     <div className="solution-menu"><p className="menu-hint"><span>01</span> ELIGE UNA SOLUCIÓN</p>{solutions.map((s,i)=>{const Icon=s.icon;const active=activeSolution===i;return <motion.button type="button" aria-pressed={active} className={`solution-tab ${active?'active':''}`} key={s.title} onClick={()=>setActiveSolution(i)} whileHover={{x:6}}><span className="tab-number">{s.n}</span><Icon/><span className="tab-copy"><b>{s.title}</b><small>{s.copy}</small></span><span className="tab-action">{active?'Explorando':'Ver solución'} <ChevronRight/></span></motion.button>})}</div>
-     <div className="solution-stage"><div className="stage-grid"/><div className="stage-orbit one"/><div className="stage-orbit two"/><AnimatePresence mode="wait">{(()=>{const s=solutions[activeSolution];const Icon=s.icon;const message=encodeURIComponent(`Hola NAGARE, me interesa conocer más sobre ${s.title}.`);return <motion.div className="stage-content" key={s.title} initial={{opacity:0,x:35}} animate={{opacity:1,x:0}} exit={{opacity:0,x:-25}} transition={{duration:.5,ease:[.16,1,.3,1]}}><div className="stage-heading"><span>SOLUCIÓN {s.n}</span><Icon/><h3>{s.title}</h3><p>{s.detail}</p></div><div className="stage-services"><p>CAPACIDADES</p>{s.items.map((item,index)=><motion.div key={item} initial={{opacity:0,y:12}} animate={{opacity:1,y:0}} transition={{delay:.12+index*.07}}><span>0{index+1}</span><b>{item}</b><Check/></motion.div>)}</div><a href={`https://wa.me/525585263040?text=${message}`} target="_blank" rel="noreferrer">Quiero esta solución <ArrowUpRight/></a></motion.div>})()}</AnimatePresence></div>
-    </div>
+   <section id="soluciones" className="section solutions-flow"><header><div><p className="kicker">LO QUE HACEMOS</p><h2>Cuatro soluciones.<br/>Una sola corriente.</h2></div><p className="sidecopy">Cada sistema se integra al siguiente para que tu espacio responda como un solo ecosistema.</p></header>
+    <nav className="solution-nav" aria-label="Navegación de soluciones">{solutions.map((s,i)=><button key={s.title} className={activeSolution===i?'active':''} aria-current={activeSolution===i?'true':undefined} onClick={()=>{setActiveSolution(i);document.getElementById(`solucion-${i}`)?.scrollIntoView({behavior:'smooth',block:'center'})}}><span>{s.n}</span>{s.title}</button>)}</nav>
+    <div className="flow-current" aria-hidden="true"><i/><i/><i/></div>
+    <div className="solution-scenes">{solutions.map((s,i)=>{const Icon=s.icon;const message=encodeURIComponent(`Hola NAGARE, me interesa conocer más sobre ${s.title}.`);return <motion.article id={`solucion-${i}`} className={`solution-scene ${i%2?'reverse':''}`} key={s.title} onViewportEnter={()=>setActiveSolution(i)} viewport={{amount:.55}} initial={{opacity:0,y:45}} whileInView={{opacity:1,y:0}} transition={{duration:.75,ease:[.16,1,.3,1]}}>
+      <div className="scene-copy"><p className="scene-number">SOLUCIÓN {s.n}</p><Icon/><h3>{s.title}</h3><p>{s.detail}</p><a href={`https://wa.me/525585263040?text=${message}`} target="_blank" rel="noreferrer">Explorar {s.title.toLowerCase()} <ArrowUpRight/></a></div>
+      <div className="scene-visual" aria-hidden="true"><span className="visual-orbit"/><span className="visual-core"><Icon/></span><small>{s.copy}</small></div>
+      <div className="capability-grid">{s.items.map((item,index)=><motion.div key={item} initial={{opacity:0,y:18}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:index*.08}}><span>0{index+1}</span><Icon/><h4>{item}</h4><p>{['Diseñado a la medida de tu espacio y preparado para crecer contigo.','Integración limpia, estable y sencilla de operar todos los días.','Control centralizado con una experiencia natural para cada usuario.','Acompañamiento experto desde el diseño hasta la operación.'][index]}</p></motion.div>)}</div>
+     </motion.article>})}</div>
    </section>
 
    <section id="proceso" className="section process"><div className="process-copy"><p className="kicker">CÓMO FLUYE</p><h2>De la idea a un sistema que simplemente funciona.</h2><p>Nos ocupamos del recorrido completo. Sin proveedores dispersos ni decisiones técnicas innecesarias.</p><a href={WA} target="_blank" rel="noreferrer">Iniciar conversación <ArrowUpRight/></a></div>
