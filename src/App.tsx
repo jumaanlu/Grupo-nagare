@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {AnimatePresence, motion, useScroll, useSpring} from 'motion/react';
 import {ArrowDown, ArrowUpRight, AudioLines, Building2, Check, ChevronRight, House, LifeBuoy, Menu, Network, ShieldCheck, X, Zap} from 'lucide-react';
 import './solutions.css';
+import './brand.css';
 
 const WA='https://wa.me/525585263040?text=Hola%20NAGARE%2C%20me%20interesa%20una%20asesor%C3%ADa%20para%20mi%20proyecto.';
 const solutions=[
@@ -31,7 +32,7 @@ export default function App(){
 
   <main>
    <section className="hero">
-    <div className="orb one"/><div className="orb two"/><div className="grid"/>
+    <div className="orb one"/><div className="orb two"/><div className="grid"/><div className="brand-wave" aria-hidden="true"><span/><span/><span/><i/></div>
     <motion.div className="hero-copy" initial={{opacity:0,y:32}} animate={{opacity:1,y:0}} transition={{duration:1}}>
      <p className="eyebrow"><i/> INTEGRACIÓN TECNOLÓGICA</p>
      <h1>Tecnología que<br/><em>fluye contigo.</em></h1>
